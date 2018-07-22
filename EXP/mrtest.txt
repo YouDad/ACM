@@ -1,0 +1,55 @@
+欧拉定理:euler theorem
+	if a>0 and n>0 and gcd(a,n)==1:
+		a**phi(n)%n=1
+
+费马小定理:fermat little theorem
+	if a>0 and n is prime:
+		a**(n-1)%n=1
+
+二次探测定理:square detection theorem
+	if p is prime and x>0 and x<p:
+		x**2%p=1 => x=1 or x=p-1
+
+Miller-Rabin prime test:
+	function mrtest(n,repeat_time=20):
+		# 0.zero and one is not prime
+		if n==0 or n==1:
+			return False;
+
+		# 1.small prime test
+		small_prime=[2,3,5,7,11,13,17,19,23,29]
+		for p in small_prime:
+			if n==p:
+				return True
+			elif n%p==0:
+				return False
+
+		# n-1 => 2**y*x
+		xx=n-1
+		yy=0
+		while xx%2==0:
+			xx/=2
+			yy++
+
+		# 2.repeat repeat_time times, wrong possibility is 1-1/4**repeat_time
+		while repeat_time-->0:
+		
+			# 3.square detection theorem and fermat little theorem
+			x=xx
+			y=yy
+			a=random.rand()
+			a=a**x%n
+			lasta=a
+			while y-->0:  # in the while using square detection theorem
+				a=a*a  # square
+				if a==1 and lasta!=1 and lasta!=n-1:
+					return False  # is not prime
+				lasta=a
+			if a!=1:
+				return False  # fermat little theorem
+
+		return True  # pass all test
+
+
+Miller-Rabin算法是一个概率算法，Miller-Rabin算法的最坏情况时间复杂度为 (1+O(1))log2(n)(以模n乘法为基本操作)
+如果以单精度乘法操作作为时间复杂度的衡量，则Miller-Rabin算法的最坏情况时间复杂度为O(log32(n))

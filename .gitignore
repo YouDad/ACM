@@ -1,0 +1,10 @@
+/BIN/
+/EXE/
+/include/
+/lib/
+/libexec/
+/mingw32/
+*.bat
+*.code-workspace
+desktop.ini
+tasks.json

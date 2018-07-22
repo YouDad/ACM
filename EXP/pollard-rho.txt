@@ -1,0 +1,22 @@
+Pollard-rho prime factorization:
+	function findfac(n):
+		if mrtest(n):
+			return [n]
+		p=n
+		while p>=n:
+			i=1,k=2
+			x=random.rand()%p
+			y=x
+			while True:
+				i++
+				x=(x*x%p+random.rand(1,n))%p
+				d=gcd(abs(y-x),p)
+				if d!=1 and d!=p:
+					p=d
+					break
+				if y==x:
+					break
+				if i==k:
+					y=x
+					k+=k
+		return findfac(p)+findfac(n/p)

@@ -1,0 +1,7 @@
+乘法逆元:
+a*inv(a)%mod=1
+求法:用exgcd,前提:所求数要与mod互质
+function inv(a,mod)
+	x=0,y=0
+	exgcd(a,mod,x,y)
+	return (mod+x%mod)%mod

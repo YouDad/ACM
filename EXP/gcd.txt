@@ -1,0 +1,15 @@
+对于任意两个正整数a,b有
+∵a=kb+r  # k,r是自然数
+∴r=a-kb
+∵c=gcd(a,b)
+∴c被a,b整除
+又∵r可以由a,b表示
+∴c能被r整除
+∴c=gcd(b,r)=gcd(b,a%b)
+	
+	function gcd(a,b):
+		while b!=0:
+			t=a%b
+			a=b
+			b=t
+		return a

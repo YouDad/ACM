@@ -1,0 +1,37 @@
+扩展欧几里德算法旨在解决这样一个问题:
+	对于二元一次方程(equ):ax+by=gcd(a,b) a,b是自然数
+	求出一组x,y解
+
+特殊情况:
+	1.a=b
+		equ => ax+ay=a => x=1,y=0 or x=0,y=1
+	2.b=0
+		equ => ax=a => x=1,y是任意整数
+	但是 当a=b时,再经历一层递归后会变成b=0
+	综上所述 equ => x=1,y=0
+一般情况:
+	a!=b
+		假设u,v是另一组解,则: equ=bu+(a%b)v
+	∵ax+by=bu+(a-a/b*b)v
+	∴ax+by=av+b(u-a/b*v)
+	∴x=v,y=u-a/b*v
+
+function exgcd(a,b,&x,&y):
+	if b==0:
+		x=1
+		y=0
+		return a
+	ret=exgcd(b,a%b,y,x)
+	y-=a/b*x
+	return ret
+
+最小正整数解
+它指的是其中一个数是正整数
+0.gcd=gcd(a,b)
+1.equ => (a/gcd)x+(b/gcd)y=1
+2.equ => (a/gcd)(x+(b/gcd))+(b/gcd)(y-(a/gcd))=1
+所以解集:
+x+nb/gcd,y-na/gcd
+如果需要x是最小正整数,则有:
+ x=(x%(b/gcd)+b/gcd)%(b/gcd)
+ y=(gcd-a*x)/b

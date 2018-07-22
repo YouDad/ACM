@@ -1,0 +1,12 @@
+
+背包如果要恰好,那么初始化步骤为:
+memset(dp,val,size);
+其中如果状态转移方程是max则val=-inf,反之亦然
+如果不用恰好,则初始化为0
+
+在咱这个背包板子里,Cost数组和Value数组下标从1开始
+
+对于int来说inf=0x3f3f3f3f或者1e9
+但对long long来说inf=1e18
+
+对于求方案总数,只要将max改成sum即可(初始化dp[0]=1)
