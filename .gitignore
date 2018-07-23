@@ -8,3 +8,11 @@
 *.code-workspace
 desktop.ini
 tasks.json
+*.exe
+mulsch.cpp
+temp*.cpp
+ACM.sln
+/ACM/
+/Debug/
+/Release/
+ACM.suo
