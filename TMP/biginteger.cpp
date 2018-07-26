@@ -27,12 +27,12 @@
 //         return *this;
 //     }
 //     friend ostream&operator<<(ostream&out,const BigInteger&x){
-// 		int i=x.s.size()-1;
-// 		while(x.s[i]==0)i--;
-// 		out<<x.s[i--];
+//         int i=x.s.size()-1;
+//         while(x.s[i]==0)i--;
+//         out<<x.s[i--];
 //         for(;i>=0;i--){
 //             char buf[20];sprintf(buf,"%08d",x.s[i]);
-//             for(int j=0;j<strlen(buf);j++)out<<buf[j];
+//             out<<buf;
 //         }
 //         return out;
 //     }
@@ -55,29 +55,29 @@
 //         }
 //         return c;
 //     }
-// 	BigInteger operator*(const BigInteger&b)const{
-// 		BigInteger a,c,d=0;
-// 		if(b>*this)
-// 			a=b,c=*this;
-// 		else
-// 			a=*this,c=b;
-// 		while(c>0)
-// 		{
-// 			if(c.s[0]%2==1)d=d+a;
-// 			a=a+a;
-// 			for(int i=c.s.size()-1;i>=0;i--)
-// 			{
-// 				if(i>0&&c.s[i]%2==1)
-// 					c.s[i-1]+=100000000;
-// 				c.s[i]/=2;
-// 			}
-// 		}
-// 		return d;
-// 	}
+//     BigInteger operator*(const BigInteger&b)const{
+//         BigInteger a,c,d=0;
+//         if(b>*this)
+//             a=b,c=*this;
+//         else
+//             a=*this,c=b;
+//         while(c>0)
+//         {
+//             if(c.s[0]%2==1)d=d+a;
+//             a=a+a;
+//             for(int i=c.s.size()-1;i>=0;i--)
+//             {
+//                 if(i>0&&c.s[i]%2==1)
+//                     c.s[i-1]+=100000000;
+//                 c.s[i]/=2;
+//             }
+//         }
+//         return d;
+//     }
 //     bool operator<(const BigInteger&b)const{
-// 		int i=s.size()-1,j=b.s.size()-1;
-// 		while(i&&s[i]==0)i--;
-// 		while(j&&b.s[j]==0)j--;
+//         int i=s.size()-1,j=b.s.size()-1;
+//         while(i&&s[i]==0)i--;
+//         while(j&&b.s[j]==0)j--;
 //         if(i!=j)return i<j;
 //         for(;i>=0;i--)
 //             if(s[i]!=b.s[i])return s[i]<b.s[i];
