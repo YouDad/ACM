@@ -9,8 +9,10 @@
 desktop.ini
 tasks.json
 *.exe
-mulsch.cpp
+2018-mul-sch.cpp
 temp*.cpp
+cf.cpp
+1.txt
 ACM.sln
 /ACM/
 /Debug/
