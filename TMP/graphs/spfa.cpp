@@ -10,7 +10,7 @@
 //{
 //	static int cnt=0;
 //	e[cnt].to=y;
-//	e[cnt].next=head[x]; 
+//	e[cnt].next=head[x];
 //	e[cnt].w=w;
 //	head[x]=cnt++;
 //}
