@@ -1,7 +1,27 @@
 乘法逆元:
 a*inv(a)%mod=1
-求法:用exgcd,前提:所求数要与mod互质
-function inv(a,mod)
-	x=0,y=0
-	exgcd(a,mod,x,y)
-	return (mod+x%mod)%mod
+
+
+方法1: 扩展欧几里得
+ax=1(mod P)
+gcd(a,p)=1
+其中x为a的逆元
+就是我们所求
+ax=PY+1
+ax-Py=1
+所以用扩展欧几里得可以求出x
+
+方法2: 费马小定理
+如果模P是素数的话
+那么inv(a)=pow(a,p-2)%p
+等式右边用快速幂运算可以得出
+
+方法3: 递推
+设t=M/i,k=M%i，那么
+    t*i+k≡0（Mod M）
+    -t*i≡k(Mod M)
+对上式两边同时除 i×k，进一步得到
+    -t*inv[k]≡inv[i](Mod M)
+再把和替换掉，最终得到
+    inv[i]=(M-M/i)*inv[M%i]%M
+    inv[i]=(mod-mod/i)*inv[mod%i]%mod
