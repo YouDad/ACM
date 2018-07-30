@@ -1,3 +1,4 @@
+#include<bits/stdc++.h>
 const int maxn=200+5;
 const int maxm=200+5;
 const int inf=0x3f3f3f3f;
@@ -71,4 +72,18 @@ int sap(int src,int dest,int n)
         }
     }
     return ret;
+}
+int main()
+{
+    int u,v,w,m,n;
+    while(~scanf("%d%d",&m,&n)){
+        cnt=0;memset(head,0,sizeof head);
+        while(m--){
+            scanf("%d%d%d",&u,&v,&w);
+            addedge(u,v,w);
+            addedge(v,u,0);
+        }
+        printf("%d\n",sap(1,n,n));
+    }
+    return 0;
 }
