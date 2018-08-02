@@ -1,0 +1,43 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "make",
+            "type": "shell",
+            "command": "cd .. ; ./make_cpp \\\"${file}\\\"",
+            "problemMatcher": []
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "cd .. ; ./run_cpp \\\"${file}\\\"",
+            "problemMatcher": []
+        },
+        {
+            "label": "make & run",
+            "type": "shell",
+            "command": "cd .. ; ./mr_cpp \\\"${file}\\\"",
+            "problemMatcher": []
+        },
+        {
+            "label": "debug",
+            "type": "shell",
+            "command": "cd .. ; ./debug_cpp \\\"${file}\\\"",
+            "problemMatcher": []
+        },
+        {
+            "label": "make & debug",
+            "type": "shell",
+            "command": "cd .. ; ./md_cpp \\\"${file}\\\"",
+            "problemMatcher": []
+        },
+        {
+            "label":"srun",
+            "type":"shell",
+            "command":"${file}",
+            "problemMatcher": []
+        }
+    ]
+}
