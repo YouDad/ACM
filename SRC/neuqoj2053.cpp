@@ -1,3 +1,4 @@
+#include<stdio.h>
 #include<string.h>
 #include<queue>
 const int maxn=105;
@@ -11,10 +12,10 @@ int dist[maxn],cnt;
 bool vis[maxm],work[maxm];
 void add(int u,int v,int r,int w)
 {
-	e[cnt].next=head[u],e[cnt].dest=v,e[cnt].cap=r;
-	e[cnt].cost=w,e[cnt].rev=e+cnt+1,head[u]=e+cnt++;
+    e[cnt].next=head[u],e[cnt].dest=v,e[cnt].cap=r;
+    e[cnt].cost=w,e[cnt].rev=e+cnt+1,head[u]=e+cnt++;
     e[cnt].next=head[v],e[cnt].dest=u,e[cnt].cap=0;
-	e[cnt].cost=-w,e[cnt].rev=e+cnt-1,head[v]=e+cnt++;
+    e[cnt].cost=-w,e[cnt].rev=e+cnt-1,head[v]=e+cnt++;
 }
 bool spfa(int src,int des)
 {
@@ -65,3 +66,31 @@ void mcmf(int src,int des,int&flow,int&cost)
     while(spfa(src,des))
         flow+=dinic(src,des,inf,cost);
 }
+int main(){
+    //freopen("1.txt","r",stdin);
+    int a,b,n,m;
+    while(~scanf("%d%d",&n,&m)){
+        memset(head,0,sizeof head);cnt=0;
+        for(int i=1;i<=n;i++)        //init to candle
+            add(0,i,1,0);
+        for(int i=1;i<=n;i++)        //candle to zone
+            scanf("%d%d",&a,&b),
+            add(i,a+50,1,0),
+            add(i,b+50,1,0);
+        for(int i=0;i<n/2+1;i++)     //zone to finish
+            for(int j=1;j<=m;j++)
+                add(j+50,101,1,i*2+1);
+        int flow,cost;
+        mcmf(0,101,flow,cost);
+        printf("%d\n",cost);
+    }
+    return 0;
+}
+/*
+3 3
+1 2
+1 2
+1 2
+
+5
+*/

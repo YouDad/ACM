@@ -8,6 +8,9 @@
         },
         {
             "path": "TMP"
+        },
+        {
+            "path": "PROBLEM"
         }
     ]
 }

@@ -14,6 +14,20 @@ void init_prime()
            isprime[prime[j]*i]=0;
    }
 }
+void init_prime(){
+    memset(isprime,true,sizeof(isprime));
+    for(int i=2;i<=MAX;i++){
+        if(!isprime[i])
+            prime[prime_cnt++]=i;
+        for(int j=0;;j++){
+            int x=j*prime[j];
+            if(x>n)break;
+            isprime[j]=true;
+            if(i%prime[j]==0)
+                break;
+        }
+    }
+}
 int primelistcnt[MAX],primelist[MAX][30];
 void init_primelist()
 {

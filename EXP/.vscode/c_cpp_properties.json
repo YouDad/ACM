@@ -1,71 +1,74 @@
 {
-    "configurations":[{
-            "name":"Mac",
-            "includePath":[
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
                 "/usr/include",
                 "/usr/local/include",
                 "${workspaceFolder}",
                 "E:/Programming Source/CppInclude/"
             ],
-            "defines":[],
-            "intelliSenseMode":"clang-x64",
-            "browse":{
-                "path":[
+            "defines": [],
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
                     "/usr/include",
                     "/usr/local/include",
                     "${workspaceFolder}",
-                "E:/Programming Source/CppInclude/"
+                    "E:/Programming Source/CppInclude/"
                 ],
-                "limitSymbolsToIncludedHeaders":true,
-                "databaseFilename":""
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
             },
-            "macFrameworkPath":[
+            "macFrameworkPath": [
                 "/System/Library/Frameworks",
                 "/Library/Frameworks"
             ]
-        },{
-            "name":"Linux",
-            "includePath":[
+        },
+        {
+            "name": "Linux",
+            "includePath": [
                 "/usr/include",
                 "/usr/local/include",
                 "${workspaceFolder}",
                 "E:/Programming Source/CppInclude/"
             ],
-            "defines":[],
-            "intelliSenseMode":"clang-x64",
-            "browse":{
-                "path":[
+            "defines": [],
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
                     "/usr/include",
                     "/usr/local/include",
                     "${workspaceFolder}",
-                "E:/Programming Source/CppInclude/"
+                    "E:/Programming Source/CppInclude/"
                 ],
-                "limitSymbolsToIncludedHeaders":true,
-                "databaseFilename":""
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
             }
-        },{
-            "name":"Win32",
-            "includePath":[
+        },
+        {
+            "name": "Win32",
+            "includePath": [
                 "${workspaceFolder}",
                 "E:/Programming Source/CppInclude/"
             ],
-            "defines":[
+            "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "intelliSenseMode":"msvc-x64",
-            "browse":{
-                "path":[
+            "intelliSenseMode": "msvc-x64",
+            "browse": {
+                "path": [
                     "${workspaceFolder}",
-                "E:/Programming Source/CppInclude/"
+                    "E:/Programming Source/CppInclude/"
                 ],
-                "limitSymbolsToIncludedHeaders":true,
-                "databaseFilename":""
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
             },
-            "cStandard":"c11",
-            "cppStandard":"c++17"
+            "cStandard": "c11",
+            "cppStandard": "c++17"
         }
     ],
-    "version":3
+    "version": 4
 }
