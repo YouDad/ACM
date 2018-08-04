@@ -1,14 +1,3 @@
-/BIN/
-/EXE/
-/include/
-/lib/
-/libexec/
-/mingw32/
-*.bat
-*.code-workspace
-desktop.ini
-tasks.json
-*.exe
 2018-mul-sch.cpp
 temp*.cpp
 wait*
