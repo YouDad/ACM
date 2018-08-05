@@ -1,3 +1,4 @@
+//neuqoj2054
 #include<stdio.h>
 #define foreach for(int i=0;i<n;i++)for(int j=0;j<n;j++)
 int a[1005][1005];

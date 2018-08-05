@@ -1,3 +1,4 @@
+﻿//neuqoj2057
 #include <bits/stdc++.h>
 #define mkpr std::make_pair
 const int maxn=1005;
