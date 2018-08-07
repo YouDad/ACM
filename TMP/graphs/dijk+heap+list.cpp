@@ -3,14 +3,15 @@
 #include<memory.h>
 #define maxn 100005
 #define maxm 200005
+#define type type
 struct edge
 {
     int dest;
-    long long dist;
+    type dist;
     struct edge*next;
 }e[maxm],*head[maxn];
 int cnt;
-inline void addedge(int u,int v,int w){
+inline void addedge(int u,int v,type w){
     e[cnt].next=head[u];
     e[cnt].dist=w;
     e[cnt].dest=v;
@@ -18,12 +19,12 @@ inline void addedge(int u,int v,int w){
 }
 struct qnode
 {
-    int id;long long dist;
-    qnode(int i,long long d){id=i,dist=d;}
+    int id;type dist;
+    qnode(int i,type d){id=i,dist=d;}
     bool operator<(const struct qnode r)const{return dist>r.dist;}
 };
 bool vis[maxn];
-long long dist[maxn];
+type dist[maxn];
 void dijkstra(int src,int n)
 {
     memset(vis,false,sizeof vis);
@@ -31,11 +32,14 @@ void dijkstra(int src,int n)
     std::priority_queue<struct qnode>q;
     dist[src]=0;q.push(qnode(src,0));
     while(q.size()){
-        int u=q.top().id;q.pop();vis[u]=true;
+        int u=q.top().id;
+        type d=q.top().dist;q.pop();
+        if(dist[u]!=d)continue;
+        vis[u]=true;
         for(struct edge*ptr=head[u];ptr;ptr=ptr->next){
             int v=ptr->dest;
             if(vis[v])continue;
-            long long w=ptr->dist;
+            type w=ptr->dist;
             if(dist[v]>dist[u]+w)
             {
                 dist[v]=dist[u]+w;

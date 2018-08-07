@@ -4,13 +4,14 @@
 #define maxn 105
 #define mod 1000000007
 #define inf 0x3f3f3f3f3f3f3f3fL
+#define type long long
 struct qnode
 {
-    int id;long long dist;
-    qnode(int i,long long d){id=i,dist=d;}
+    int id;type dist;
+    qnode(int i,type d){id=i,dist=d;}
     bool operator<(const struct qnode r)const{return dist>r.dist;}
 };
-long long dist[maxn],map[maxn][maxn],remind[maxn][maxn];
+type dist[maxn],map[maxn][maxn],remind[maxn][maxn];
 bool vis[maxn];
 void dijkstra(int src,int n)
 {
@@ -19,10 +20,13 @@ void dijkstra(int src,int n)
     std::priority_queue<struct qnode>q;
     dist[src]=0;q.push(qnode(src,0));
     while(q.size()){
-        int u=q.top().id;q.pop();vis[u]=true;
+        int u=q.top().id;
+        type d=q.top().dist;q.pop();
+        if(dist[u]!=d)continue;
+        vis[u]=true;
         for(int v=0;v<n;v++){
             if(vis[v])continue;
-            long long w=map[u][v];
+            type w=map[u][v];
             if(dist[v]>dist[u]+w)
             {
                 dist[v]=dist[u]+w;
