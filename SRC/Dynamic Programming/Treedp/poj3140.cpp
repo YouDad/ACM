@@ -25,7 +25,7 @@ void dfs(int rt){
         }
     }
 }
-long long cinl()//正数
+long long cinl()//positive
 {
     int ch;
     while((ch=getchar())<'0'||ch>'9');
