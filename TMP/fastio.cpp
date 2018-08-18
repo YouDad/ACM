@@ -20,6 +20,14 @@ long long cinl()//ÕıÊı
         res=res*10+ch-'0';
     return res;
 }
+int ch,res;
+int cini(){
+    while((ch=getchar())<'0'||ch>'9');
+    res=ch-'0';
+    while((ch=getchar())>='0'&&ch<='9' )
+        res=res*10+ch-'0';
+    return res;
+}
 int cinx()
 {
     int ret=0;
