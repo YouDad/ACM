@@ -1,5 +1,6 @@
 /BIN/
 /EXE/
+/CppInclude/
 /include/
 /lib/
 /libexec/
@@ -7,7 +8,7 @@
 *.bat
 *.code-workspace
 desktop.ini
-tasks.json
+*.json
 *.exe
 2018-mul-sch.cpp
 temp*.cpp
