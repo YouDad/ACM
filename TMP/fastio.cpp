@@ -22,12 +22,11 @@ long long cinl()//ÕıÊı
 }
 int ch,res;
 int cini(){
-    while((ch=getchar())<'0'||ch>'9');
-    res=ch-'0';
-    while((ch=getchar())>='0'&&ch<='9' )
-        res=res*10+ch-'0';
+    while((ch=getchar())<'0'||ch>'9');res=ch-'0';
+    while((ch=getchar())>='0'&&ch<='9')res=res*10+ch-'0';
     return res;
 }
+void out(long long x){if(x>9)out(x/10);putchar(x%10+'0');}
 int cinx()
 {
     int ret=0;
