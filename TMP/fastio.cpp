@@ -1,4 +1,8 @@
 #include<stdio.h>
+inline char nc(){
+    static char buf[100000],*p1=buf,*p2=buf;
+    return p1==p2&&(p2=(p1=buf)+fread(buf,1,100000,stdin),p1==p2)?EOF:*p1++;
+}
 long long cinl()
 {
    long long res=0;
