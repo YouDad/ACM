@@ -19,8 +19,8 @@ int main(){
     int t=cini();
     while(t--){
         int n=cini(),m=cini(),pl=1;
-		std::priority_queue<int,std::vector<int>,std::greater<int>>q;
-		for(int i=1;i<=n;i++)q.push(i);
+        std::priority_queue<int,std::vector<int>,std::greater<int>>q;
+        for(int i=1;i<=n;i++)q.push(i);
         for(int i=1;i<=n;i++)pre[i]=i;
         while(m--){
             int l=cini(),r=cini();
@@ -29,8 +29,8 @@ int main(){
         for(int i=n-1;i>0;i--)pre[i]=min(pre[i],pre[i+1]);
         for(int i=1;i<=n;i++){
             while(pl<pre[i])
-				q.push(ans[pl++]);
-			ans[i]=q.top();q.pop();
+                q.push(ans[pl++]);
+            ans[i]=q.top();q.pop();
         }
         for(int i=1;i<=n;i++)
             printf("%d%c",ans[i]," \n"[i==n]);
