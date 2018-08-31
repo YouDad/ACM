@@ -1,6 +1,6 @@
-int f[100005],Q[100005][17],n;
+int Q[100005][17];
 inline int func(int a,int b){return a>b?a:b;}
-void rmqinit(){
+void rmqinit(int*f,int n){
     for(int i=1;i<=n;i++)Q[i][0]=f[i];
     int k=1;while(1<<k<=n)k++;
     for(int j=1;j<k;j++)
