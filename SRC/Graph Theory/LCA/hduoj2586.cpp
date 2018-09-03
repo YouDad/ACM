@@ -39,7 +39,7 @@ int lca(int a,int b){int c;
             a=prev[a][j];
     if(a==b)return a;
     for(int j=c;~j;j--)
-        if(prev[a][j]&&prev[a][j]!=prev[b][j])
+        if(prev[a][j]^prev[b][j])
             a=prev[a][j],b=prev[b][j];
     return prev[a][0];
 }
