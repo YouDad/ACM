@@ -15,6 +15,7 @@ void addedge(int u,int v,int w){
 }
 struct qnode{
     int id,dist;
+    qnode(int i=0,int d=0){id=i;dist=d;}
     bool operator<(const qnode&other)const{
         return dist>other.dist;
     }
@@ -25,7 +26,7 @@ void dijkstra(int src){
     memset(vis,false,sizeof vis);
     memset(dist,0x3f,sizeof dist);
     std::priority_queue<qnode>q;
-    q.push({src,dist[src]=0});
+    q.push(qnode(src,dist[src]=0));
     while(q.size()){
         int u=q.top().id,d=q.top().dist;q.pop();
         debug("visit No.%d dist=%d\n",u,d);
@@ -37,7 +38,7 @@ void dijkstra(int src){
             if(!vis[v])
             if(dist[v]>dist[u]+w){
                 dist[v]=dist[u]+w;
-                q.push({v,dist[v]});
+                q.push(qnode(v,dist[v]));
             }
         }
     }
