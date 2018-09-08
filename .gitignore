@@ -10,9 +10,8 @@
 desktop.ini
 *.json
 *.exe
-2018-mul-sch.cpp
-temp*.cpp
 wait*
+_*
 cf.cpp
 1.txt
 ACM.sln
