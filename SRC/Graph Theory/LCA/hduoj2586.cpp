@@ -2,66 +2,57 @@
 #include<string.h>
 const int maxn=40005;
 struct edge{
-    int v,w;
+    int dest,dist;
     struct edge*next;
 }e[maxn*2],*head[maxn];
-int deep[maxn],dist[maxn],cnt;
+int cnt;
 void addedge(int u,int v,int w){
-    e[cnt].v=v;e[cnt].w=w;
+    e[cnt].dest=v;
+    e[cnt].dist=w;
     e[cnt].next=head[u];
     head[u]=e+cnt++;
-    e[cnt].v=u;e[cnt].w=w;
-    e[cnt].next=head[v];
-    head[v]=e+cnt++;
 }
-int prev[maxn][20];
-void dfs(int u){
-    for(edge*i=head[u];i;i=i->next){
-        int v=i->v,w=i->w;
-        if(!prev[v][0]){
-            prev[v][0]=u;
-            deep[v]=deep[u]+1;
-            dist[v]=dist[u]+w;
-            dfs(v);
-        }
-    }
+int pre[maxn][20],deep[maxn],dist[maxn];
+void dfs(int u,int f,int w){
+    pre[u][0]=f;
+    deep[u]=deep[f]+1;
+    dist[u]=dist[f]+w;
+    for(int i=0;pre[u][i];i++)
+        pre[u][i+1]=pre[pre[u][i]][i];
+    for(edge*i=head[u];i;i=i->next)
+        if(i->dest!=f)
+            dfs(i->dest,u,i->dist);
 }
-void doubly(int n){
-    for(int j=1;1<<j<=n;j++)
-        for(int i=1;i<=n;i++)
-            prev[i][j]=prev[prev[i][j-1]][j-1];
-}
-int lca(int a,int b){int c;
-    if(deep[a]<deep[b])a^=b^=a^=b;
-    for(c=0;1<<c+1<=deep[a];c++);
-    for(int j=c;~j;j--)
-        if(deep[a]-deep[b]>=1<<j)
-            a=prev[a][j];
-    if(a==b)return a;
-    for(int j=c;~j;j--)
-        if(prev[a][j]^prev[b][j])
-            a=prev[a][j],b=prev[b][j];
-    return prev[a][0];
+int lca(int u,int v){
+    if(deep[u]<deep[v])u^=v^=u^=v;
+    int delta=deep[u]-deep[v];
+    for(int i=0;delta;i++,delta/=2)
+        if(delta&1)
+            u=pre[u][i];
+    if(u==v)
+        return u;
+    for(int i=19;~i;i--)
+        if(pre[u][i]^pre[v][i])
+            u=pre[u][i],v=pre[v][i];
+    return pre[u][0];
 }
 int main(){
+#ifdef LOCAL_DEBUG
+	freopen("E:/ACM/SRC/1.txt","r",stdin);
+#endif
     int t;scanf("%d",&t);
-    while(t--){cnt=0;
-        memset(head,0,sizeof head);
-        memset(deep,0,sizeof deep);
-        memset(dist,0,sizeof dist);
-        memset(prev,0,sizeof prev);
+    while(t--){
         int n,m;scanf("%d%d",&n,&m);
-        for(int i=1,u,v,w;i<n;i++){
+        memset(head,cnt=0,sizeof head);
+        for(int u,v,w,i=1;i<n;i++){
             scanf("%d%d%d",&u,&v,&w);
             addedge(u,v,w);
+            addedge(v,u,w);
         }
-        prev[1][0]=1;dfs(1);prev[1][0]=0;
-        doubly(n);
+        dfs(1,0,0);
         for(int u,v;m--;){
             scanf("%d%d",&u,&v);
-            int LCA=lca(u,v);
-            printf("%d\n",dist[u]+dist[v]-2*dist[LCA]);
+            printf("%d\n",dist[u]+dist[v]-2*dist[lca(u,v)]);
         }
     }
-    return 0;
 }
