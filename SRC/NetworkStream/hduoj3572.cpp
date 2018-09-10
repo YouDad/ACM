@@ -2,12 +2,12 @@
 #include<string.h>
 #include<queue>
 int min(int a,int b){return a<b?a:b;}
-const int maxn=205,inf=0x3f3f3f3f;
+const int maxn=1005,inf=0x3f3f3f3f;
 struct edge{
     int dist,dest;
     struct edge*next;
     struct edge*rev;
-}e[maxn*2],*head[maxn],*last[maxn];
+}e[(500*500+500+500)*2+5],*head[maxn],*last[maxn];
 int cnt,gap[maxn],dist[maxn],nodenum;
 void addedge(int u,int v,int w){
     e[cnt].dist=w;
@@ -71,16 +71,24 @@ int main(){
 #ifdef LOCAL_DEBUG
     freopen("E:/ACM/SRC/1.txt","r",stdin);
 #endif
-    int n,m;
-    while(~scanf("%d%d",&m,&n)){
+    int t;scanf("%d",&t);
+    for(int kase=1;t--;kase++){
+        printf("Case %d: ",kase);
         memset(head,cnt=0,sizeof head);
-        while(m--){
-            int u,v,w;
-            scanf("%d%d%d",&u,&v,&w);
-            addedge(u,v,w);
+        int n,m;scanf("%d%d",&n,&m);
+        int maxr=0,sumw=0;
+        for(int i=1,l,r,w;i<=n;i++){
+            scanf("%d%d%d",&w,&l,&r);
+            addedge(0,i,w);
+            for(int j=l;j<=r;j++)
+                addedge(i,500+j,1);
+            if(r>maxr)maxr=r;
+            sumw+=w;
         }
-        nodenum=n;
-        printf("%d\n",isap(1,n));
+        for(int i=1;i<=maxr;i++)
+            addedge(i+500,1001,m);
+        nodenum=2+n+maxr;
+        puts(sumw==isap(0,1001)?"Yes\n":"No\n");
     }
-	return 0;
+    return 0;
 }

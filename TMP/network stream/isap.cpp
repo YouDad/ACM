@@ -2,12 +2,12 @@
 #include<string.h>
 #include<queue>
 int min(int a,int b){return a<b?a:b;}
-const int maxn=205,inf=0x3f3f3f3f;
+const int maxn=1005,inf=0x3f3f3f3f;
 struct edge{
     int dist,dest;
     struct edge*next;
     struct edge*rev;
-}e[maxn*2],*head[maxn],*last[maxn];
+}e[(500*500+500+500)*2+5],*head[maxn],*last[maxn];
 int cnt,gap[maxn],dist[maxn],nodenum;
 void addedge(int u,int v,int w){
     e[cnt].dist=w;
@@ -67,20 +67,4 @@ int isap(int src,int dest){
         ret+=aug(src,src,dest,inf);
     return ret;
 }
-int main(){
-#ifdef LOCAL_DEBUG
-    freopen("E:/ACM/SRC/1.txt","r",stdin);
-#endif
-    int n,m;
-    while(~scanf("%d%d",&m,&n)){
-        memset(head,cnt=0,sizeof head);
-        while(m--){
-            int u,v,w;
-            scanf("%d%d%d",&u,&v,&w);
-            addedge(u,v,w);
-        }
-        nodenum=n;
-        printf("%d\n",isap(1,n));
-    }
-	return 0;
-}
+//初始化head cnt nodenum
