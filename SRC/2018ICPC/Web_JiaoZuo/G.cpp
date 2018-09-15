@@ -1,3 +1,4 @@
+// https://nanti.jisuanke.com/t/31716
 #include<stdio.h>
 typedef long long ll;
 const int mod=1e9+7;

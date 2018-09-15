@@ -20,3 +20,5 @@ ACM.sln
 /Release/
 ACM.suo
 /.vs/
+Main.java
+*.class

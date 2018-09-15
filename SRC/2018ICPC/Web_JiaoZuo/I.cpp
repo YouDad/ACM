@@ -1,3 +1,4 @@
+// https://nanti.jisuanke.com/t/31718
 #include<stdio.h>
 int main(){
 #ifdef LOCAL_DEBUG

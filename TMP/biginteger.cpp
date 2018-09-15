@@ -7,15 +7,15 @@ struct BigInteger{
     static const int WIDTH=8;
     vector<int>s;
     BigInteger(long long num=0){*this=num;}
-    BigInteger&operator =(long long num){
+    BigInteger&operator=(long long num){
         s.clear();
         do{
             s.push_back(num%BASE);
             num/=BASE;
         }while(num>0);
-        return *this;
+        return*this;
     }
-    BigInteger&operator =(const string& str){
+    BigInteger&operator=(const string&str){
         s.clear();
         int x,len=(str.length()-1)/WIDTH+1;
         for(int i=0;i<len;i++){
@@ -24,7 +24,7 @@ struct BigInteger{
             sscanf(str.substr(start,end-start).c_str(),"%d",&x);
             s.push_back(x);
         }
-        return *this;
+        return*this;
     }
     friend ostream&operator<<(ostream&out,const BigInteger&x){
         int i=x.s.size()-1;
@@ -38,7 +38,8 @@ struct BigInteger{
     }
     friend istream&operator>>(istream&in,BigInteger&x){
         string s;
-        if(!(in>>s))return in;
+        if(!(in>>s))
+            return in;
         x=s;
         return in;
     }
@@ -61,18 +62,30 @@ struct BigInteger{
             a=b,c=*this;
         else
             a=*this,c=b;
-        while(c>0)
-        {
+        while(c>0){
             if(c.s[0]%2==1)d=d+a;
             a=a+a;
-            for(int i=c.s.size()-1;i>=0;i--)
-            {
+            for(int i=c.s.size()-1;i>=0;i--){
                 if(i>0&&c.s[i]%2==1)
                     c.s[i-1]+=100000000;
                 c.s[i]/=2;
             }
         }
         return d;
+    }
+    BigInteger div2()const{
+        BigInteger ret=*this;
+        int remind=0;
+        for(int i=ret.s.size()-1;i>=0;i--){
+            remind=ret.s[i]%2;
+            ret.s[i]/=2;
+        }
+        while(ret.s.size()&&ret.s.back()==0)
+            ret.s.pop_back();
+        return ret;
+    }
+    int mod2()const{
+        return s[0]%2;
     }
     bool operator<(const BigInteger&b)const{
         int i=s.size()-1,j=b.s.size()-1;
@@ -84,8 +97,8 @@ struct BigInteger{
         return false;
     }
     bool operator>(const BigInteger&b)const{return b<*this;}
-    bool operator<=(const BigInteger&b)const{return !(b<*this);}
-    bool operator>=(const BigInteger&b)const{return !(*this<b);}
+    bool operator<=(const BigInteger&b)const{return!(b<*this);}
+    bool operator>=(const BigInteger&b)const{return!(*this<b);}
     bool operator!=(const BigInteger&b)const{return b<*this||*this<b;}
-    bool operator==(const BigInteger&b)const{return !(b!=*this);}
+    bool operator==(const BigInteger&b)const{return!(b!=*this);}
 };

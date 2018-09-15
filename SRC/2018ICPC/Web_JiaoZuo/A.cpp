@@ -1,3 +1,4 @@
+// https://nanti.jisuanke.com/t/31710
 #include<stdio.h>
 #include<string.h>
 char str[]="jessie";

@@ -38,6 +38,18 @@
             "type":"shell",
             "command":"${file}",
             "problemMatcher": []
+        },
+        {
+            "label": "java compile",
+            "type": "shell",
+            "command": "echo compiling;cd E:/ACM/SRC;javac \"${fileBasenameNoExtension}.java\";",
+            "problemMatcher":[]
+        },
+        {
+            "label": "java run",
+            "type": "shell",
+            "command": "echo running;cd E:/ACM/SRC;java \"${fileBasenameNoExtension}\";",
+            "problemMatcher":[]
         }
     ]
 }
