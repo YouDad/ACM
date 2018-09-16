@@ -64,7 +64,7 @@ struct matrix{
             for(j=0;j<20;j++)
                 for(k=0;k<20;k++)
                     ret.a[i][j]+=a[i][k]*other.a[k][j],
-					ret.a[i][j]%=mod;
+                    ret.a[i][j]%=mod;
         return ret;
     }
     matrix&operator*=(const matrix&other){*this=*this*other;
