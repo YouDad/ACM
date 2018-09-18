@@ -1,110 +1,83 @@
-#include<string.h>
-#define maxn 1005
-int next[maxn];
-void getnext(char T[])
-{
-    int j=0,k=-1,tlen=strlen(T);
-    next[0]=-1;
-    while(j<tlen)
-        if(k==-1||T[j]==T[k])
-            next[++j]=++k;
-        else
-            k=next[k];
-}
-int kindex(char S[],char T[])//·µ»ØÄ£Ê½´®TÔÚÖ÷´®SÖÐÊ×´Î³öÏÖµÄÎ»ÖÃ ·µ»ØµÄÎ»ÖÃÊÇ´Ó0¿ªÊ¼µÄ¡£
-{
-    int i=0, j=0;
-    getnext(T);
-    int slen=strlen(S);
-    int tlen=strlen(T);
-    while(i<slen&&j<tlen)
-        if(j==-1||S[i]==T[j])
-            i++,j++;
-        else
-            j=next[j];
-    if(j==tlen)
-        return i-tlen;
-    else
-        return -1;
-}
-int kcount(char S[],char T[])//·µ»ØÄ£Ê½´®ÔÚÖ÷´®SÖÐ³öÏÖµÄ´ÎÊý
-{
-    int ans=0;
-    int i,j=0;
-    int slen=strlen(S);
-    int tlen=strlen(T);
-    if(slen==1&&tlen==1)
-        if(S[0]==T[0])
-            return 1;
-        else
-            return 0;
-    getnext(T);
-    for(i=0;i<slen;i++)
-    {
-        while(j>0&&S[i]!=T[j])
-            j=next[j];
-        if(S[i]==T[j])
-            j++;
-        if(j==tlen)
-            ans++,
-            j=next[j];
+//global array default next[1]=0,needn't to init
+char s[1000005],t[10005];
+int next[10005],slen,tlen;
+void getnext(char*t,int tlen){
+    for(int i=1;i<=tlen;i++){
+        int j=next[i];
+        while(j&&t[i]!=t[j])j=next[j];
+        next[i+1]=t[i]==t[j]?j+1:0;
     }
-    return ans;
 }
-const int maxn=100010; //×Ö·û´®³¤¶È×î´óÖµ
-int next[maxn],ex[maxn]; //exÊý×é¼´ÎªextendÊý×é ex[i]±íÊ¾TÓëS[i,n-1]µÄ×î³¤¹«¹²Ç°×º
-//Ô¤´¦Àí¼ÆËãnextÊý×é
+int kindex(char*s,char*t,int slen){
+    for(int i=0,j=0;i<slen;i++){
+        while(j&&s[i]!=t[j])j=next[j];
+        if(s[i]==t[j])j++;
+        if(j==slen)return i-m+2;
+    }return -1;
+}
+int kcount(char*s,char*t,int slen){
+    int ans=0;
+    for(int i=0,j=0;i<slen;i++){
+        while(j&&s[i]!=t[j])j=next[j];
+        if(s[i]==t[j])j++;
+        if(j==slen)ans++;
+    }return ans;
+}
+
+const int maxn=100010; //ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+int next[maxn],ex[maxn]; //exï¿½ï¿½ï¿½é¼´Îªextendï¿½ï¿½ï¿½ï¿½ ex[i]ï¿½ï¿½Ê¾Tï¿½ï¿½S[i,n-1]ï¿½ï¿½ï¿½î³¤ï¿½ï¿½ï¿½ï¿½Ç°×º
+//Ô¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½nextï¿½ï¿½ï¿½ï¿½
 void getnext(char *str)
 {
     int i=0,j,po,len=strlen(str);
-    next[0]=len;//³õÊ¼»¯next[0]
-    while(str[i]==str[i+1]&&i+1<len)//¼ÆËãnext[1]
+    next[0]=len;//ï¿½ï¿½Ê¼ï¿½ï¿½next[0]
+    while(str[i]==str[i+1]&&i+1<len)//ï¿½ï¿½ï¿½ï¿½next[1]
         i++;
     next[1]=i;
-    po=1;//³õÊ¼»¯poµÄÎ»ÖÃ
+    po=1;//ï¿½ï¿½Ê¼ï¿½ï¿½poï¿½ï¿½Î»ï¿½ï¿½
     for(i=2;i<len;i++)
     {
-        if(next[i-po]+i<next[po]+po)//µÚÒ»ÖÖÇé¿ö£¬¿ÉÒÔÖ±½ÓµÃµ½next[i]µÄÖµ
+        if(next[i-po]+i<next[po]+po)//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ÓµÃµï¿½next[i]ï¿½ï¿½Öµ
             next[i]=next[i-po];
-        else//µÚ¶þÖÖÇé¿ö£¬Òª¼ÌÐøÆ¥Åä²ÅÄÜµÃµ½next[i]µÄÖµ
+        else//ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½ï¿½ÜµÃµï¿½next[i]ï¿½ï¿½Öµ
         {
             j=next[po]+po-i;
-            if(j<0)j=0;//Èç¹ûi>po+next[po],ÔòÒª´ÓÍ·¿ªÊ¼Æ¥Åä
-            while(i+j<len&&str[j]==str[j+i])//¼ÆËãnext[i]
+            if(j<0)j=0;//ï¿½ï¿½ï¿½i>po+next[po],ï¿½ï¿½Òªï¿½ï¿½Í·ï¿½ï¿½Ê¼Æ¥ï¿½ï¿½
+            while(i+j<len&&str[j]==str[j+i])//ï¿½ï¿½ï¿½ï¿½next[i]
                 j++;
             next[i]=j;
-            po=i;//¸üÐÂpoµÄÎ»ÖÃ
+            po=i;//ï¿½ï¿½ï¿½ï¿½poï¿½ï¿½Î»ï¿½ï¿½
         }
     }
 }
-//¼ÆËãextendÊý×é
+//ï¿½ï¿½ï¿½ï¿½extendï¿½ï¿½ï¿½ï¿½
 void exkmp(char *S,char *T)
 {
     int i=0,j,po,len=strlen(S),l2=strlen(T);
-    getnext(T);//¼ÆËã×Ó´®µÄnextÊý×é
-    while(S[i]==T[i]&&i<l2&&i<len)//¼ÆËãex[0]
+    getnext(T);//ï¿½ï¿½ï¿½ï¿½ï¿½Ó´ï¿½ï¿½ï¿½nextï¿½ï¿½ï¿½ï¿½
+    while(S[i]==T[i]&&i<l2&&i<len)//ï¿½ï¿½ï¿½ï¿½ex[0]
         i++;
     ex[0]=i;
-    po=0;//³õÊ¼»¯poµÄÎ»ÖÃ
+    po=0;//ï¿½ï¿½Ê¼ï¿½ï¿½poï¿½ï¿½Î»ï¿½ï¿½
     for(i=1;i<len;i++)
     {
-        if(next[i-po]+i<ex[po]+po)//µÚÒ»ÖÖÇé¿ö£¬Ö±½Ó¿ÉÒÔµÃµ½ex[i]µÄÖµ
+        if(next[i-po]+i<ex[po]+po)//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó¿ï¿½ï¿½ÔµÃµï¿½ex[i]ï¿½ï¿½Öµ
             ex[i]=next[i-po];
-        else//µÚ¶þÖÖÇé¿ö£¬Òª¼ÌÐøÆ¥Åä²ÅÄÜµÃµ½ex[i]µÄÖµ
+        else//ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½ï¿½ÜµÃµï¿½ex[i]ï¿½ï¿½Öµ
         {
             j=ex[po]+po-i;
-            if(j<0)j=0;//Èç¹ûi>ex[po]+poÔòÒª´ÓÍ·¿ªÊ¼Æ¥Åä
-            while(i+j<len&&j<l2&&S[j+i]==T[j])//¼ÆËãex[i]
+            if(j<0)j=0;//ï¿½ï¿½ï¿½i>ex[po]+poï¿½ï¿½Òªï¿½ï¿½Í·ï¿½ï¿½Ê¼Æ¥ï¿½ï¿½
+            while(i+j<len&&j<l2&&S[j+i]==T[j])//ï¿½ï¿½ï¿½ï¿½ex[i]
                 j++;
             ex[i]=j;
-            po=i;//¸üÐÂpoµÄÎ»ÖÃ
+            po=i;//ï¿½ï¿½ï¿½ï¿½poï¿½ï¿½Î»ï¿½ï¿½
         }
     }
 }
-×Ö·û´®µÄ×îÐ¡±íÊ¾·¨,¾ÍÊÇ¶ÔÓÚÒ»¸ö×Ö·û´®,¿ÉÒÔ½«ËüµÄ×îºóÒ»Î»·Åµ½µÚÒ»Î»À´,ÒÀ´ÎÀàÍÆ,Ò»¹²ÓÐstrlenÖÖ±äÐÎ
-ÀýÈç:s="00ab"
-±äÐÎÓÐ£¨Ê¡ÂÔÒýºÅ£©b00a ab00 0ab0 ¼ÓÉÏ00ab Ò»¹²4ÖÖ
-ÄÇÃ´ÕÒµ½ÆäÖÐ×ÖµäÐò×îÐ¡µÄÒ»¸ö,ÓÃµÄËã·¨±ãÊÇminr,ÄÇÃ´ÕÒµ½ÆäÖÐ×ÖµäÐò×î´óµÄÒ»¸ö,ÓÃµÄËã·¨±ãÊÇmaxr
+ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½Ê¾ï¿½ï¿½,ï¿½ï¿½ï¿½Ç¶ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»Î»ï¿½Åµï¿½ï¿½ï¿½Ò»Î»ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,Ò»ï¿½ï¿½ï¿½ï¿½strlenï¿½Ö±ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½:s="00ab"
+ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½Ê¡ï¿½ï¿½ï¿½ï¿½ï¿½Å£ï¿½b00a ab00 0ab0 ï¿½ï¿½ï¿½ï¿½00ab Ò»ï¿½ï¿½4ï¿½ï¿½
+ï¿½ï¿½Ã´ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½Ò»ï¿½ï¿½,ï¿½Ãµï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½minr,ï¿½ï¿½Ã´ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½,ï¿½Ãµï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½maxr
 namespace
 {
     bool mmr=false;

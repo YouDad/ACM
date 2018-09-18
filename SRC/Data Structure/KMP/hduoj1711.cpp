@@ -20,7 +20,7 @@ int main(){
         }
         for(int i=0,j=0;i<slen;i++){
             while(j&&s[i]!=t[j])j=next[j];
-            j=s[i]==t[j]?j+1:0;
+            if(s[i]==t[j])j++;
             if(j==tlen){
                 printf("%d\n",i-j+2);
                 goto yes;
