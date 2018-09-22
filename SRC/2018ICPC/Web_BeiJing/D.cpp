@@ -6,23 +6,15 @@ int main(){
 #endif
     int T;scanf("%d",&T);
     while(T--){
-        int n,k,t;
-        scanf("%d%d",&n,&k);
-        for(int i=0;i<n;i++)
-            scanf("%d",a+i);
-        for(int i=0;i<n;i++)
-            scanf("%d",&t),a[i]-=t;
-        long long sum=0;int ans;
-        for(int i=0,j=0;;j++){
-            sum+=a[j%n];
-            while(i<n&&sum<-k)sum-=a[i++];
-            if(i==n){
-                ans=-1;break;
-            }else if(j-i==n-1){
-                ans=i+1;break;
-            }
-        }
-        printf("%d\n",ans);
+        int n,k,t;scanf("%d%d",&n,&k);
+        for(int i=0;i<n;i++)scanf("%d",a+i);
+        for(int i=0;i<n;i++)scanf("%d",&t),a[i]-=t;
+        long long sum=0;int ans,i=0,j=0;
+        while(i!=n&&j-i!=n){
+            sum+=a[j++%n];
+            while(i<n&&sum<-k)
+                sum-=a[i++];
+        }printf("%d\n",i==n?-1:i+1);
     }
     return 0;
 }
