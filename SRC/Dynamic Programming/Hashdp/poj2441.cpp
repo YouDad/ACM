@@ -14,14 +14,16 @@ int main(){
         }
         if(n>m){puts("0");continue;}
         memset(dp,0,4<<m);dp[0]=1;
-        for(int i=0;i<n;i++)
-            for(int u=(1<<m)-1;~u;u--)
+        for(int i=0;i<n;i++){
+            int t=(1<<i)-1,s=t<<m-i;
+            for(int u=s;u>=t;u--)
                 if(dp[u]){
                     for(int j=1;j<=a[i][0];j++)
                         if(!(a[i][j]&u))
                             dp[a[i][j]|u]+=dp[u];
                     dp[u]=0;
                 }
+        }
         int sum=0;
         for(int i=0;i<1<<m;i++)
             sum+=dp[i];
