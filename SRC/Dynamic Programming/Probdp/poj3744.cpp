@@ -1,3 +1,5 @@
+#include<stdio.h>
+#include<algorithm>
 #include<string.h>
 #define __add__(res,fir,sec) res+=fir+sec
 #define __mul__(res,fir,sec) res+=fir*sec
@@ -37,3 +39,21 @@ struct matrix{
 #undef FOR
 };typedef matrix<double> mat;
 template<>int mat::__size__=0;//mat::set_calc_sz(2);
+int main(){
+#ifdef LOCAL_DEBUG
+    freopen("E:/ACM/SRC/1.txt","r",stdin);
+#endif
+    int n,x[15];double p;
+    while(~scanf("%d%lf",&n,&p)){
+        mat::set_calc_sz(2);
+        for(int i=0;i<n;i++)
+            scanf("%d",x+i);
+        x[n]=0;std::sort(x,x+n+1);
+        double ans=1;mat m(0);
+        m.a[0][0]=p,m.a[0][1]=1-p,m.a[1][0]=1;
+        for(int i=1;i<=n;i++)
+            ans*=(1-(m^x[i]-x[i-1]-1).a[0][0]);
+        printf("%.7lf\n",ans);
+    }
+    return 0;
+}
