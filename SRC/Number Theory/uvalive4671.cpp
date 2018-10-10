@@ -1,6 +1,5 @@
 #include<stdio.h>
 #include<string.h>
-#include<set>
 #include<math.h>
 #include<algorithm>
 struct complex_t{
@@ -48,53 +47,41 @@ void init(int n){
         IDFT[i]=DFT[i].conj();
 }
 char a[100005],b[100005];
-int dist[maxn];//hamming
-typedef long long ll;
-ll hash[100005];
+int stat[maxn],alen,blen,M;
+void statfunc(char A,char B){
+    memset(f,0,sizeof f);memset(g,0,sizeof g);
+    for(int i=0;i<alen;i++)f[i]=a[i]==A;
+    for(int i=0;i<blen;i++)g[i]=b[i]==B;
+    transform(M,f,DFT);transform(M,g,DFT);
+    for(int i=0;i<M;i++)f[i]*=g[i];
+    transform(M,f,IDFT);
+    for(int i=0;i<alen-blen+1;i++)
+        stat[i]+=f[i+blen-1].r/M+0.5;
+}
+#include<set>
 const int seed=3;
+long long hash[maxn];
 int main(){
 #ifdef LOCAL_DEBUG
     freopen("E:/ACM/SRC/1.txt","r",stdin);
 #endif
     int k,kase=1;
     while(~scanf("%d%*c",&k)&&k!=-1){
-        printf("Case %d: ",kase++);
-        gets(a);gets(b);
-        int la=strlen(a),lb=strlen(b);
-        if(la<lb){puts("0");continue;}
-        int len=la>lb?la:lb;len++;
-        int M=1;while(M<2*len)M*=2;
-        init(M);std::reverse(b,b+lb);
-        memset(dist,0,sizeof dist);
-        memset(f,0,sizeof f);memset(g,0,sizeof g);
-        for(int i=0;i<la;i++)f[i]=a[i]=='a';
-        for(int i=0;i<lb;i++)g[i]=b[i]=='b';
-        transform(M,f,DFT);transform(M,g,DFT);
-        for(int i=0;i<M;i++)f[i]*=g[i];
-        transform(M,f,IDFT);
-        for(int i=0;i<M;i++)dist[i]+=f[i].r/M+0.5;
-        memset(f,0,sizeof f);memset(g,0,sizeof g);
-        for(int i=0;i<la;i++)f[i]=a[i]=='b';
-        for(int i=0;i<lb;i++)g[i]=b[i]=='a';
-        transform(M,f,DFT);transform(M,g,DFT);
-        for(int i=0;i<M;i++)f[i]*=g[i];
-        transform(M,f,IDFT);
-        for(int i=0;i<M;i++)dist[i]+=f[i].r/M+0.5;
-        ll indent=1,base=seed,index=lb;
+        gets(a);gets(b);memset(stat,0,sizeof stat);
+		alen=strlen(a);blen=strlen(b);std::reverse(b,b+blen);
+        M=1;while(M<2*alen+2)M*=2;init(M);
+        statfunc('a','b');statfunc('b','a');
+        long long indent=1,index=blen,base=seed;
         while(index){
             if(index&1)indent*=base;
             base*=base;index/=2;
-        }std::set<ll>set;
-        for(int i=1;i<=la;i++)
-            hash[i]=hash[i-1]*3+a[i-1]-'a'+1;
-        int ans=0;
-        for(int i=lb-1;i<la;i++){
-            if(dist[i]<=k){
-                ll hashstring=hash[i+1]-hash[i+1-lb]*indent;
-                if(set.count(hashstring))continue;
-                set.insert(hashstring);ans++;
-            }
-        }printf("%d\n",ans);
+        }std::set<long long>set;
+        for(int i=0;i<alen;i++)hash[i+1]=hash[i]*seed+a[i]-'a'+1;
+        for(int i=0;i<alen-blen+1;i++){
+            if(stat[i]>k)continue;
+            long long hashstring=hash[i+blen]-hash[i]*indent;
+            set.insert(hashstring);
+        }printf("Case %d: %d\n",kase++,set.size());
     }
     return 0;
 }

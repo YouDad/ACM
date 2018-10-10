@@ -46,10 +46,9 @@ void init(int n){
     for(int i=0;i<n;i++)
         IDFT[i]=DFT[i].conj();
 }
-const int maxm=1e6+5;
-char a[maxm],b[maxm];
-int win[maxn],M,alen,blen;
-inline void stat(char A,char B){
+char a[1000005],b[1000005];
+int stat[1000005],alen,blen,M;
+void statfunc(char A,char B){
     memset(f,0,sizeof f);memset(g,0,sizeof g);
     for(int i=0;i<alen;i++)f[i]=a[i]==A;
     for(int i=0;i<blen;i++)g[i]=b[i]==B;
@@ -57,22 +56,27 @@ inline void stat(char A,char B){
     for(int i=0;i<M;i++)f[i]*=g[i];
     transform(M,f,IDFT);
     for(int i=0;i<alen-blen+1;i++)
-        win[i]+=f[i+blen-1].r/M+0.5;
+        stat[i]+=f[i+blen-1].r/M+0.5;
 }
 int main(){
 #ifdef LOCAL_DEBUG
     freopen("E:/ACM/SRC/1.txt","r",stdin);
 #endif
     gets(a);gets(b);
-    alen=strlen(a),blen=strlen(b);
+    alen=strlen(a);blen=strlen(b);
     std::reverse(b,b+blen);
-    M=1;while(M<2*(alen+1))M*=2;
-    init(M);
-    stat('P','S');stat('P','L');
-    stat('R','P');stat('R','K');
-    stat('L','R');stat('L','S');
-    stat('K','L');stat('K','P');
-    stat('S','K');stat('S','R');
-    printf("%d\n",*std::max_element(win,win+alen-blen+1));
+    M=1;while(M<2*alen+2)M*=2;init(M);
+#define bekilledby ,
+    statfunc('P' bekilledby 'S');
+    statfunc('L' bekilledby 'S');
+    statfunc('R' bekilledby 'P');
+    statfunc('K' bekilledby 'P');
+    statfunc('L' bekilledby 'R');
+    statfunc('S' bekilledby 'R');
+    statfunc('P' bekilledby 'L');
+    statfunc('K' bekilledby 'L');
+    statfunc('S' bekilledby 'K');
+    statfunc('R' bekilledby 'K');
+    printf("%d\n",*std::max_element(stat,stat+alen-blen+1));
     return 0;
 }
