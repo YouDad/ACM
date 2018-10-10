@@ -9,6 +9,7 @@ struct complex_t{
         return *this;
     }
     complex_t conj(){return complex_t(r,-i);}
+    complex_t operator-()const{return complex_t(-r,-i);}
     #define ops(ref,op,isconst) complex_t ref operator op(const complex_t&other)isconst
     ops(,+,const){return complex_t(r+other.r,i+other.i);}
     ops(,-,const){return complex_t(r-other.r,i-other.i);}
