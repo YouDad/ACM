@@ -1,10 +1,26 @@
 #include<stdio.h>
 #include<string.h>
 #include<math.h>
-#include<complex>
 #include<algorithm>
+struct complex_t{
+    double r,i;
+    complex_t(){}
+    complex_t(double r,double i):r(r),i(i){}
+    complex_t&operator=(double x){
+        r=x,i=0;
+        return *this;
+    }
+    complex_t conj(){return complex_t(r,-i);}
+    complex_t operator-()const{return complex_t(-r,-i);}
+    #define ops(ref,op,isconst) complex_t ref operator op(const complex_t&other)isconst
+    ops(,+,const){return complex_t(r+other.r,i+other.i);}
+    ops(,-,const){return complex_t(r-other.r,i-other.i);}
+    ops(,*,const){return complex_t(r*other.r-i*other.i,r*other.i+i*other.r);}
+    ops(&,+=,){*this=*this+other;return *this;}
+    ops(&,-=,){*this=*this-other;return *this;}
+    ops(&,*=,){*this=*this*other;return *this;}
+};
 const int maxn=1<<19;
-typedef std::complex<double>complex_t;
 complex_t f[maxn];
 complex_t DFT[maxn],IDFT[maxn];
 const double pi=acos(-1.0);
@@ -29,7 +45,7 @@ void init(int n){
     for(int i=0;i<n;i++)
         DFT[i]=complex_t(cos(i*angle),sin(i*angle));
     for(int i=0;i<n;i++)
-        IDFT[i]=conj(DFT[i]);
+        IDFT[i]=DFT[i].conj();
 }
 int main(){
 #ifdef LOCAL_DEBUG
@@ -38,18 +54,17 @@ int main(){
     int n;
     while(~scanf("%d",&n)){
         memset(f,0,sizeof f);
-        int t,M=1;
+        int t,M=1,ans=0;
         while(n--){
-            scanf("%d",&t);f[t]=1;
+            scanf("%d",&t),f[t]=1;
             while(M<t*2)M*=2;
-        }init(M);f[0]=1;
-        transform(M,f,DFT);
+        }init(M);f[0]=1;transform(M,f,DFT);
         for(int i=0;i<M;i++)f[i]*=f[i];
         transform(M,f,IDFT);
-        scanf("%d",&n);int ans=0;
+        scanf("%d",&n);
         while(n--){
             scanf("%d",&t);
-            ans+=(f[t].real()>=M/2);
+            ans+=f[t].r>=M/2;
         }printf("%d\n",ans);
     }
     return 0;

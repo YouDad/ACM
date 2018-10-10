@@ -1,10 +1,26 @@
 #include<stdio.h>
 #include<string.h>
 #include<math.h>
-#include<complex>
 #include<algorithm>
+struct complex_t{
+    double r,i;
+    complex_t(){}
+    complex_t(double r,double i):r(r),i(i){}
+    complex_t&operator=(double x){
+        r=x,i=0;
+        return *this;
+    }
+    complex_t conj(){return complex_t(r,-i);}
+    complex_t operator-()const{return complex_t(-r,-i);}
+    #define ops(ref,op,isconst) complex_t ref operator op(const complex_t&other)isconst
+    ops(,+,const){return complex_t(r+other.r,i+other.i);}
+    ops(,-,const){return complex_t(r-other.r,i-other.i);}
+    ops(,*,const){return complex_t(r*other.r-i*other.i,r*other.i+i*other.r);}
+    ops(&,+=,){*this=*this+other;return *this;}
+    ops(&,-=,){*this=*this-other;return *this;}
+    ops(&,*=,){*this=*this*other;return *this;}
+};
 const int maxn=1<<18;
-typedef std::complex<double>complex_t;
 complex_t f[maxn];
 complex_t DFT[maxn],IDFT[maxn];
 const double pi=acos(-1.0);
@@ -29,9 +45,10 @@ void init(int n){
     for(int i=0;i<n;i++)
         DFT[i]=complex_t(cos(i*angle),sin(i*angle));
     for(int i=0;i<n;i++)
-        IDFT[i]=conj(DFT[i]);
+        IDFT[i]=DFT[i].conj();
 }
-int a[100005],c[100005];
+const int maxm=1e5+5;
+int a[maxm],c[maxm];
 long long ans[maxn];
 int main(){
 #ifdef LOCAL_DEBUG
@@ -39,31 +56,27 @@ int main(){
 #endif
     int T;scanf("%d",&T);
     while(T--){
-        int n;scanf("%d",&n);
         memset(c,0,sizeof c);
+        memset(f,0,sizeof f);
+        int n,M=1;scanf("%d",&n);
         for(int i=0;i<n;i++)
             scanf("%d",a+i),c[a[i]]++;
         std::sort(a,a+n);
-        int M=1;while(M<2*a[n-1]+2)M*=2;
-        memset(f,0,sizeof f);
+        while(M<2*a[n-1]+2)M*=2;
         for(int i=0;i<n;i++)
             f[a[i]]=c[a[i]];
         init(M);transform(M,f,DFT);
         for(int i=0;i<M;i++)f[i]*=f[i];
         transform(M,f,IDFT);
         for(int i=0;i<M;i++)
-            ans[i]=f[i].real()/M+0.5;
+            ans[i]=f[i].r/M+0.5;
         for(int i=0;i<n;i++)
             ans[a[i]*2]--;
         for(int i=1;i<M;i++)
             ans[i]=ans[i]/2+ans[i-1];
-        long long cnt=0;
-        for(long long i=0;i<n;i++){
-            cnt+=ans[M-1]-ans[a[i]];
-            cnt-=i*(n-1-i);
-            cnt-=n-1;
-            cnt-=(n-1-i)*(n-2-i)/2;
-        }
+        long long cnt=-1LL*n*n+n;
+        for(int i=0;i<n;i++)
+            cnt+=ans[M-1]-ans[a[i]]-(n-1LL-i)*(n-2LL+i)/2LL;
         printf("%.7lf\n",6.0*cnt/n/(n-1)/(n-2));
     }
     return 0;
