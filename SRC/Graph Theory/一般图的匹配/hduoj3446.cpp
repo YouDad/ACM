@@ -1,10 +1,11 @@
+#include<stdio.h>
 #include<string.h>
 #include<queue>
-const int maxn=250;
+const int maxn=235;
 struct edge{
     int dest;
     edge*next;
-}e[maxn*maxn*2],*head[maxn];
+}e[maxn*40],*head[maxn];
 std::deque<int>q;
 int pre[maxn],nodenum,cnt;
 int vis[maxn],nxt[maxn],match[maxn];
@@ -60,4 +61,46 @@ bool aug(int src){
             }
         }
     }return false;
+}
+char map[20][20];int n,m;
+inline int abs(int x){return x<0?-x:x;}
+void addedges(int x,int y,bool bidir){
+    for(int dx=-2;dx<=2;dx++)
+    for(int dy=-2;dy<=2;dy++){
+        if(abs(dx)==2&&!dy||abs(dy)==2&&!dx||!dx&&!dy)continue;
+        int nx=x+dx,ny=y+dy;
+        if(nx<0||ny<0||nx>=n||ny>=m)continue;
+        if(map[nx][ny]=='.'){
+            addedge(x*m+y+1,nx*m+ny+1);
+            if(bidir)addedge(nx*m+ny+1,x*m+y+1);
+        }
+    }
+}
+int main(){
+#ifdef LOCAL_DEBUG
+    freopen("E:/ACM/SRC/1.txt","r",stdin);
+#endif
+    int T;scanf("%d",&T);
+    for(int kase=1;kase<=T;kase++){
+        printf("Case #%d: daizhenyang ",kase);
+        scanf("%d%d",&n,&m);nodenum=n*m;
+        for(int i=0;i<n;i++)
+            scanf("%s",map[i]);
+        memset(head,cnt=0,sizeof head);
+        int kx,ky;
+        for(int x=0;x<n;x++)
+        for(int y=0;y<m;y++)
+        if(map[x][y]=='.')
+            addedges(x,y,false);
+        else if(map[x][y]=='K')
+            kx=x,ky=y;
+        memset(match,-1,sizeof match);
+        for(int x=0;x<n;x++)
+        for(int y=0;y<m;y++)
+        if(map[x][y]=='.'&&!~match[x*m+y+1])
+            aug(x*m+y+1);
+        addedges(kx,ky,true);
+        puts(aug(kx*m+ky+1)?"win":"lose");
+    }
+    return 0;
 }
