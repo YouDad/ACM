@@ -1,6 +1,7 @@
+#include<stdio.h>
 #include<string.h>
 #include<queue>
-const int maxn=250;
+const int maxn=805;
 struct edge{
     int dest;
     edge*next;
@@ -13,6 +14,9 @@ void addedge(int u,int v){
     e[cnt].dest=v;
     e[cnt].next=head[u];
     head[u]=e+cnt++;
+    e[cnt].dest=u;
+    e[cnt].next=head[v];
+    head[v]=e+cnt++;
 }
 int find(int x){return x==pre[x]?x:pre[x]=find(pre[x]);}
 void join(int x,int y){x=find(x);y=find(y);if(x!=y)pre[x]=y;}
@@ -60,4 +64,45 @@ bool aug(int src){
             }
         }
     }return false;
+}
+int u[maxn],v[maxn],deg[maxn],d[maxn];
+int id[maxn],num[maxn];
+inline int abs(int x){return x<0?-x:x;}
+int main(){
+#ifdef LOCAL_DEBUG
+    freopen("E:/ACM/SRC/1.txt","r",stdin);
+#endif
+    int T;scanf("%d",&T);
+    for(int kase=1;kase<=T;kase++){
+        printf("Case %d: ",kase);
+        int n,m;scanf("%d%d",&n,&m);
+        memset(deg,0,sizeof deg);
+        for(int i=0;i<m;i++){
+            scanf("%d%d",u+i,v+i);
+            deg[u[i]]++;deg[v[i]]++;
+        }
+        for(int i=1;i<=n;i++)
+            scanf("%d",d+i);
+        int c=0;
+        for(int i=1;i<=n;i++){
+            if(d[i]-deg[i]>0)goto No;
+            id[i]=c;c+=num[i]=deg[i]-d[i];
+        }
+        memset(head,cnt=0,sizeof head);
+        for(int i=0;i<m;i++,c+=2){
+            addedge(c,c+1);
+            int U=id[u[i]],V=id[v[i]];
+            for(int j=0;j<num[u[i]];j++)
+                addedge(c,U+j);
+            for(int j=0;j<num[v[i]];j++)
+                addedge(V+j,c+1);
+        }
+        memset(match,-1,sizeof match);
+        for(int i=0;i<c;i++)
+            if(!~match[i]&&!aug(i))
+                goto No;
+        puts("YES");continue;
+        No:puts("NO");
+    }
+    return 0;
 }
