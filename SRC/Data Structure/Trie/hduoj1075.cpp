@@ -2,7 +2,7 @@
 #include<string.h>
 const int maxn=1e6+5;
 struct Node{
-    int val;
+    int val;//index of word
     Node*next[26];
 }node[maxn],*head;
 int cnt;
@@ -33,19 +33,16 @@ int search(char*s){
     }return p->val;
 }
 void solve(char*s){
-    int i=0,len=strlen(s);
-    while(i<len){
+    for(int i=0;s[i];){
         if(s[i]<'a'||'z'<s[i]){
             putchar(s[i++]);
             continue;
         }
         int j=i;
-        while(j<len&&'a'<=s[j]&&s[j]<='z')
-            buf[j-i]=s[j++];
-        buf[j-i]=0;
+        while('a'<=s[i]&&s[i]<='z')
+            buf[i-j]=s[i++];buf[i-j]=0;
         int ret=search(buf);
-        printf("%s",ret==-1?buf:word[ret]);
-        i=j;
+        printf("%s",~ret?word[ret]:buf);
     }putchar('\n');
 }
 int main(){

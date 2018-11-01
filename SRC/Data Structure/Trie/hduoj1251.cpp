@@ -1,36 +1,37 @@
 #include<stdio.h>
 #include<string.h>
 const int maxn=1e6+5;
-struct TrieNode{
-    int cnt;
-    TrieNode*next[26];
-}node[maxn],head;
+struct Node{
+    int val;//count of prefix
+    Node*next[26];
+}node[maxn],*head;
 int cnt;
-char str[1005];
-TrieNode*newnode(){
+Node*newnode(){
     return node+cnt++;
 }
 void insert(char*s){
-    TrieNode*p=&head;
+    Node*p=head;
     for(char*i=s;*i;i++){
-        p->cnt++;
+        p->val++;
         if(p->next[*i-'a']==NULL)
             p->next[*i-'a']=newnode();
         p=p->next[*i-'a'];
-    }p->cnt++;
+    }p->val++;
 }
 int match(char*s){
-    TrieNode*p=&head;
+    Node*p=head;
     for(char*i=s;*i;i++){
         if(p->next[*i-'a'])
             p=p->next[*i-'a'];
         else return 0;
-    }return p->cnt;
+    }return p->val;
 }
+char str[1005];
 int main(){
 #ifdef LOCAL_DEBUG
     freopen("E:/ACM/SRC/1.txt","r",stdin);
 #endif
+    head=newnode();
     while(gets(str))
         if(str[0])
             insert(str);
