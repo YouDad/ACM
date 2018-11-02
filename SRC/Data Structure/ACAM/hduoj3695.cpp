@@ -12,14 +12,13 @@ void insert(char*s){
     Node*p=rt;
     for(char*i=s;*i;i++){
         int k=*i-'A';
-        if(!p->next[k])
+        if(p->next[k]==NULL)
             p->next[k]=newnode();
         p=p->next[k];
     }p->cnt++;
 }
 void inif(){
-    std::queue<Node*>q;
-    q.push(rt);
+    std::queue<Node*>q;q.push(rt);
     while(q.size()){
         Node*u=q.front();q.pop();
         for(int i=0;i<26;i++){
@@ -30,25 +29,24 @@ void inif(){
     }
 }
 int query(char*s){
-    Node*p=rt;int ret=0;char*i;
-    for(i=s;*i;i++){
-        p=p->next[*i-'A'];
-        Node*q=p;
+    Node*p=rt,*q;int ret=0;char*i;
+    for(i=s;*i;i++){//forward match
+        q=p=p->next[*i-'A'];
         while(q!=rt){
-            if(~q->cnt){
+            if(q->cnt){
                 ret+=q->cnt;
-                q->cnt=-1;
+                q->cnt=0;
             }else break;
             q=q->fail;
         }
     }i--;
-    for(p=rt;i!=s-1;i--){
+    for(p=rt;i!=s-1;i--){//backward match
         p=p->next[*i-'A'];
         Node*q=p;
         while(q!=rt){
-            if(~q->cnt){
+            if(q->cnt){
                 ret+=q->cnt;
-                q->cnt=-1;
+                q->cnt=0;
             }else break;
             q=q->fail;
         }
@@ -71,8 +69,7 @@ int main(){
                 scanf("%d%c%*c",&x,&c);
                 while(x--)str[i++]=c;
             }else str[i++]=c;
-        }str[i]=0;
-        inif();
+        }str[i]=0;inif();
         printf("%d\n",query(str));
         if(T)memset(node,0,cnt*sizeof(Node));
     }

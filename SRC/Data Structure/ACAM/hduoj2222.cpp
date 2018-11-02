@@ -29,19 +29,17 @@ void inif(){
     }
 }
 int query(char*s){
-    Node*p=rt;int ret=0;
+    Node*p=rt,*q;int ret=0;
     for(char*i=s;*i;i++){
-        p=p->next[*i-'a'];
-        Node*q=p;
+        q=p=p->next[*i-'a'];
         while(q!=rt){
-            if(~q->cnt)
-                ret+=q->cnt,
-                q->cnt=-1;
-            else break;
+            if(q->cnt){
+                ret+=q->cnt;
+                q->cnt=0;
+            }else break;
             q=q->fail;
         }
-    }
-    return ret;
+    }return ret;
 }
 char str[1000005];
 int main(){
